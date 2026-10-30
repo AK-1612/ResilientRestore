@@ -33,7 +33,7 @@ def run_live_demo():
     target_file = "enterprise_pipeline.py"
     
     print("=" * 60)
-    print("🚀 STARTING LIVE LLM AGENT & RESILIENTRESTORE DEMO")
+    print("STARTING LIVE LLM AGENT & RESILIENTRESTORE DEMO")
     print("=" * 60)
     
     # 1. Read baseline state
@@ -62,7 +62,7 @@ def run_live_demo():
         # Actually write it to disk for the demo
         with open(target_file, "w") as f:
             f.write(valid_update)
-        print("🟢 [ResilientRestore]: Transaction COMMITTED successfully.")
+        print("[ResilientRestore]: Transaction COMMITTED successfully.")
 
     # 3. Simulate Catastrophic LLM Failure (Agent hallucinates and wipes or corrupts the file)
     print("\n" + "=" * 60)

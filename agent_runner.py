@@ -65,10 +65,10 @@ def run_agent_workflow():
             
             result = response.json()
             if response.status_code == 200:
-                print(f"[ResilientRestore Status]: COMMITTED 🟢 (Tx ID: {result.get('transaction_id')})")
+                print(f"[ResilientRestore Status]: COMMITTED (Tx ID: {result.get('transaction_id')})")
                 print(f"[File Current Content]: {open(target_file).read()}")
             else:
-                print(f"[ResilientRestore Status]: ROLLED BACK 🔴 (Tx ID: {result.get('detail', {}).get('transaction_id')})")
+                print(f"[ResilientRestore Status]: ROLLED BACK (Tx ID: {result.get('detail', {}).get('transaction_id')})")
                 print(f"[Error Reason]: {result.get('detail', {}).get('reason')}")
                 print(f"[File Restored Content]: {open(target_file).read()}")
                 
