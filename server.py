@@ -1,17 +1,16 @@
 from fastapi import FastAPI, HTTPException
 from schemas import ToolExecutionRequest
 from middleware import ResilientRestoreMiddleware
+from database import get_all_logs
 import os
 
-app = FastAPI(title="ResilientRestore Sidecar", version="1.0.0")
+app = FastAPI(title="ResilientRestore Sidecar", version="1.1.0")
 restore_middleware = ResilientRestoreMiddleware()
 
-# Mock tool handler function
 def mock_tool_executor(arguments: dict):
     command = arguments.get("command", "")
     target_file = arguments.get("file_path")
     
-    # Simulate a failing operation / malicious corruption
     if "corrupt" in command or "fail" in command:
         if target_file and os.path.exists(target_file):
             with open(target_file, "w") as f:
@@ -38,6 +37,15 @@ async def execute_transactional_tool(request: ToolExecutionRequest):
         "status": "success",
         "transaction_id": evaluation.transaction_id,
         "message": evaluation.message
+    }
+
+@app.get("/api/v1/audit-logs")
+async def get_audit_logs():
+    """Retrieves all immutable transaction audit logs from SQLite."""
+    logs = get_all_logs()
+    return {
+        "total_transactions": len(logs),
+        "audit_trail": logs
     }
 
 if __name__ == "__main__":
